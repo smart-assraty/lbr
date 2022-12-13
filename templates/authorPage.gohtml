@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<head>
+    <title>Articles</title>
+    <script src="/scripts/authorPage.js"></script>
+    <style>
+        h1{
+            text-align: center;
+            font-size: 72;
+        }
+        img{
+            align-self: left;
+            border-radius: 50%;
+            padding-left: 10px;
+            padding-right: 10px;
+            width: 300px;
+            height: 300px;
+        }
+        .article{
+            text-align: left;
+            font-size: 16;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding-left: 50px;
+            margin-bottom: 5px;
+        }
+        .container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+        }
+        .image{
+            flex-basis: 40%;
+        }
+        .description{
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image">
+            <img src="{{.Author.Img}}" alt="{{.Author.Name}}">
+        </div>
+        <div class="description">
+            <h2 style="text-align: center;">{{.Author.Name}}</h2>
+            <p>{{.Author.Description}}</p>
+        </div>
+    </div>
+    <h3>ARTICLES</h3>
+    {{range .Articles}}
+        <div class="article" onclick="articleButton('posts/{{.Url}}')">
+            <h2>{{.Title}}</h2>
+        </div>
+    {{end}}
+</body>
