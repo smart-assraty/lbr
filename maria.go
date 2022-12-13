@@ -2,16 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"log"
 
 	"github.com/go-sql-driver/mysql"
 )
-
-func checkError(errName string, e error) {
-	if e != nil {
-		log.Fatal("Error: "+errName+": ", e)
-	}
-}
 
 type connector struct {
 	user     string
@@ -86,14 +79,4 @@ func (connector connector) getAuthorPage(author Author) AuthorPage {
 	authorPage.Author = author
 	authorPage.Articles = connector.getArticles(authorPage.Author.Name)
 	return authorPage
-}
-
-func main() {
-	connector := connector{"admin", "test", "tcp(192.168.1.17:8000)", "lbr"}
-	authors := connector.getAuthors()
-	authorHtml := HTML{"author.html", "author", ""}
-	buildFromTemplate(authors, authorHtml)
-	for _, element := range authors {
-		buildFromTemplate(connector.getAuthorPage(element), HTML{element.Name + ".html", "authorPage", "authors/"})
-	}
 }
