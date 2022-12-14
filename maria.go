@@ -57,13 +57,24 @@ type Article struct {
 	Url      string
 }
 
-func (connector connector) getArticles(authorName string) []Article {
+func (connector connector) getArticles() []Article {
+	rows := connector.connect("select * from article;")
+	var responses []Article
+	for rows.Next() {
+		var response Article
+		checkError("getArticles", rows.Scan(&response.Id, &response.Title, &response.AuthorId, &response.Url))
+		responses = append(responses, response)
+	}
+	return responses
+}
+
+func (connector connector) getArticlesOfAuthor(authorName string) []Article {
 	rows := connector.connect("select * from article where ( select id from author where name='" + authorName + "') = author_id;")
 
 	var responses []Article
 	for rows.Next() {
 		var response Article
-		checkError("getArticles", rows.Scan(&response.Id, &response.Title, &response.AuthorId, &response.Url))
+		checkError("getArticlesOfAuthor", rows.Scan(&response.Id, &response.Title, &response.AuthorId, &response.Url))
 		responses = append(responses, response)
 	}
 	return responses
@@ -77,6 +88,6 @@ type AuthorPage struct {
 func (connector connector) getAuthorPage(author Author) AuthorPage {
 	var authorPage AuthorPage
 	authorPage.Author = author
-	authorPage.Articles = connector.getArticles(authorPage.Author.Name)
+	authorPage.Articles = connector.getArticlesOfAuthor(authorPage.Author.Name)
 	return authorPage
 }

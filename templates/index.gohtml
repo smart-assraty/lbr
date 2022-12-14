@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<head>
+    <title>Index</title>
+</head>
+<style>
+    .header{
+        height: 150px;
+        display: flex;
+    }
+    .logo{
+        align-self: left;
+        width: 150px;
+    }
+    .logoText{
+        margin-left: 100px;
+    }
+    img{
+        display: block;
+    }
+    .article{
+        text-align: left;
+        font-size: 16;
+        border: 2px solid black;
+        border-radius: 10px;
+        padding-left: 50px;
+        margin-bottom: 5px;
+    }
+    .frontImage{
+        margin-top: 50px;
+        margin-bottom: 50px;
+    }
+</style>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="./img/lbr_logo.jpg" width="150px" height="150px">
+        </div>
+        <div class="logoText">
+            <h1>Libertarian Kazakhstan</h1>
+        </div>
+    </div>
+    <div class="frontImage">
+        <img src="./img/Gadsden_flag.png" height="500px" width="90%" style="margin: auto;">
+    </div>
+    {{range .}}
+        <div class="article" onclick="articleButton('posts/{{.Url}}')">
+            <h2>{{.Title}}</h2>
+        </div>
+    {{end}}
+</body>
